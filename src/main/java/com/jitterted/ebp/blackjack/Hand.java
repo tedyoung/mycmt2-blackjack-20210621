@@ -58,7 +58,4 @@ public class Hand {
         return hand.value() < value();
     }
 
-    public boolean valueEquals(int target) {
-        return value() == target;
-    }
 }
