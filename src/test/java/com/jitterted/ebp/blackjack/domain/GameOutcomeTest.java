@@ -25,7 +25,6 @@ class GameOutcomeTest {
         game.initialDeal();
 
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
@@ -38,7 +37,6 @@ class GameOutcomeTest {
         game.initialDeal();
 
         game.playerHits();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BUSTED);
@@ -46,7 +44,7 @@ class GameOutcomeTest {
 
     @Test
     public void playerDealtBlackjackThenOutcomeIsWinsBlackjack() throws Exception {
-        Deck playerWinsBlackjack = new StubDeck(Rank.ACE,  Rank.NINE,
+        Deck playerWinsBlackjack = new StubDeck(Rank.ACE, Rank.NINE,
                                                 Rank.JACK, Rank.TEN);
         Game game = new Game(playerWinsBlackjack);
 
@@ -56,5 +54,18 @@ class GameOutcomeTest {
                 .isEqualByComparingTo(GameOutcome.PLAYER_WIN_BLACKJACK);
     }
 
+    @Test
+    public void playerStandsResultsInDealerDrawAdditionalCard() throws Exception {
+        Deck dealerDrawsCardDeck = new StubDeck(Rank.TEN, Rank.QUEEN,
+                                                Rank.NINE, Rank.FIVE,
+                                                           Rank.SIX);
+        Game game = new Game(dealerDrawsCardDeck);
+        game.initialDeal();
+
+        game.playerStands();
+
+        assertThat(game.dealerHand().cards())
+                .hasSize(3);
+    }
 
 }
