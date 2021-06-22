@@ -20,8 +20,7 @@ class GameOutcomeTest {
 
     @Test
     public void whenPlayerBeatsDealerOutcomeIsPlayerBeatsDealer() throws Exception {
-        Deck deck = new StubDeck(Rank.TEN,   Rank.EIGHT,
-                                 Rank.QUEEN, Rank.JACK);
+        Deck deck = StubDeck.playerBeatsDealer();
         Game game = new Game(deck);
         game.initialDeal();
 
@@ -34,9 +33,7 @@ class GameOutcomeTest {
 
     @Test
     public void whenPlayerHitsGoesBustThenOutcomeIsPlayerBusted() throws Exception {
-        Deck deck = new StubDeck(Rank.TEN,  Rank.EIGHT,
-                                 Rank.NINE, Rank.QUEEN,
-                                 Rank.FIVE);
+        Deck deck = StubDeck.playerHitsAndGoesBust();
         Game game = new Game(deck);
         game.initialDeal();
 
@@ -46,4 +43,18 @@ class GameOutcomeTest {
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BUSTED);
     }
+
+    @Test
+    public void playerDealtBlackjackThenOutcomeIsWinsBlackjack() throws Exception {
+        Deck playerWinsBlackjack = new StubDeck(Rank.ACE,  Rank.NINE,
+                                                Rank.JACK, Rank.TEN);
+        Game game = new Game(playerWinsBlackjack);
+
+        game.initialDeal();
+
+        assertThat(game.determineOutcome())
+                .isEqualByComparingTo(GameOutcome.PLAYER_WIN_BLACKJACK);
+    }
+
+
 }

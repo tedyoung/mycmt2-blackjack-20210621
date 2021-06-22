@@ -28,6 +28,8 @@ public class Game {
             return GameOutcome.PLAYER_BUSTED;
         } else if (dealerHand.isBusted()) {
             return GameOutcome.DEALER_BUSTED;
+        } else if (playerHand.isBlackjack()) {
+            return GameOutcome.PLAYER_WIN_BLACKJACK;
         } else if (playerHand.beats(dealerHand)) {
             return GameOutcome.PLAYER_BEATS_DEALER;
         } else if (playerHand.pushes(dealerHand)) {
@@ -46,20 +48,24 @@ public class Game {
         }
     }
 
+    // ENCAPSULATE BETTER, e.g., HandView
     public Hand playerHand() {
         return playerHand;
     }
 
+    // ENCAPSULATE BETTER, e.g., HandView
     public Hand dealerHand() {
         return dealerHand;
     }
 
     public void playerHits() {
+        // constraint/guard class: requires player not being done
         playerHand.drawFrom(deck);
         playerDone = playerHand.isBusted();
     }
 
     public void playerStands() {
+        // constraint/guard class: requires player not being done
         playerDone = true;
     }
 
