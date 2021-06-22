@@ -72,6 +72,9 @@ public class Game {
         // constraint/guard class: requires player not being done
         playerHand.drawFrom(deck);
         playerDone = playerHand.isBusted();
+        if (playerDone) {
+            gameMonitor.roundCompleted(this);
+        }
     }
 
     public void playerStands() {
